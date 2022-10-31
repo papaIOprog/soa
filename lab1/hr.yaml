@@ -1,0 +1,131 @@
+---
+openapi: 3.0.0
+info:
+  title: HR Api
+  description: HR managment API to manage workers and thei salaries
+  version: "1"
+servers:
+- url: https://virtserver.swaggerhub.com/PAPAIOPROG_1/service-oriented/1
+  description: SwaggerHub API Auto Mocking
+- url: https://api.papaio.xyz/hr
+  description: Production
+paths:
+  /fire/{id}:
+    patch:
+      tags:
+      - worker
+      summary: Fire worker
+      description: Fires worker by id
+      operationId: fireWorker
+      parameters:
+      - name: id
+        in: path
+        description: The user ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /index/all/{org-id}/{coeff}:
+    patch:
+      tags:
+      - worker
+      summary: Fire worker
+      description: Indexes salary for workers by org-id
+      operationId: indexSalary
+      parameters:
+      - name: org-id
+        in: path
+        description: The user ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: itmo-org
+      - name: coeff
+        in: path
+        description: The user ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+          format: float
+          example: 1.2
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "500":
+          description: Server Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Error
+    Success:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+  parameters:
+    offsetParam:
+      name: offset
+      in: query
+      description: The number of items to skip before starting to collect the result set.
+      required: false
+      style: form
+      explode: true
+      schema:
+        minimum: 0
+        type: integer
+    limitParam:
+      name: limit
+      in: query
+      description: The numbers of items to return.
+      required: false
+      style: form
+      explode: true
+      schema:
+        maximum: 10
+        minimum: 1
+        type: integer
+        default: 5
